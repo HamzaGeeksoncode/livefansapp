@@ -1,0 +1,130 @@
+@import '../vars';
+
+.footer {
+  background: #FEEE67;
+  padding-bottom: 120px;
+  .footer__wrapper {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  .footer__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 150px;
+  }
+  .footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer__info {
+    font-weight: 600;
+    color: #766D24;
+  }
+  .footer__logo {
+    font-weight: bold;
+    font-size: 64px;
+    color: #232323;
+  }
+  .footer__nav_item {
+    position: relative;
+    &.dropdown {
+      &:hover {
+        .dropdown__wrapper {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+  .footer__socials {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer__socials_item {
+    margin-right: 50px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .footer__socials_link {
+    svg {
+      path {
+        transition: $trans;
+      }
+    }
+    &:hover {
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+    }
+  }
+  .dropdown__wrapper {
+    position: absolute;
+    top: 13px;
+    right: 0;
+    left: 0;
+    padding-top: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: $trans;
+  }
+  .dropdown__list {
+    background-color: #fff59f;
+    box-shadow: 0 0 3px #000;
+    padding: 10px;
+    border-radius: 3px;
+  }
+  .dropdown__item {
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media(max-width: 992px) {
+  .footer {
+    padding-bottom: 50px;
+    .footer__logo {
+      font-size: 40px;
+    }
+    .footer__nav {
+      margin-bottom: 70px;
+      flex-direction: column;
+    }
+    .footer__nav_item {
+      margin-bottom: 10px;
+    }
+    .footer__nav_link {
+      display: flex;
+      align-items: center;
+      svg {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+@media(max-width:768px) {
+  .footer {
+    .footer__socials_item {
+      margin-right: 30px;
+    }
+    .footer__bottom {
+      flex-direction: column;
+    }
+    .footer__info {
+      margin-bottom: 15px;
+    }
+    .footer__logo {
+      margin-bottom: 15px;
+    }
+  }
+}

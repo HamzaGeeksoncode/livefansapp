@@ -1,0 +1,80 @@
+@import 'vars';
+html {
+	height: 100%;
+}
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	min-width: 320px;
+	line-height: 1.4;
+	font-family: $nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+	position: relative;
+	// -webkit-tap-highlight-color: rgba(0,0,0,0);
+	// -webkit-tap-highlight-color: transparent; 
+}
+a {
+	display: inline-block;
+	color: inherit;
+	text-decoration: none;
+}
+img {
+	max-width: 100%;
+}
+a:focus,
+input:focus,
+button:focus,
+textarea:focus {
+	outline: none;
+}
+span,button,b,i {
+	display: inline-block;
+}
+i {
+	font-style: normal;
+}
+input,
+button,
+textarea {
+	background: none;
+	outline: none;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+}
+li {
+	list-style: none;
+}
+.main {
+	flex-grow: 1;
+}
+.mw {
+	max-width: 1320px;
+	padding: 0 15px;
+	width: 100%;
+	margin: 0 auto;
+}
+::-webkit-scrollbar {
+	width: 9px;
+	height: 6px;
+}
+::-webkit-scrollbar-track {
+	// box-shadow: inset 0 0 5px #8bb1f8;
+	border-radius: 10px;
+}
+::-webkit-scrollbar-corner {
+	width: 6px;
+}
+::-webkit-scrollbar-thumb {
+	background: #A8A8BF;
+	border-radius: 3px;
+}

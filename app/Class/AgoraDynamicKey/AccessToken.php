@@ -1,56 +1,8 @@
 <?php
 
-namespace App\Classes\AgoraDynamicKey;
-class Message
-{
-      public $salt;
-    public $ts;
-    public $privileges;
-    public function __construct()
-    {
-        $this->salt = rand(0, 100000);
+namespace App\Class\AgoraDynamicKey;
 
-        $date = new \DateTime("now", new \DateTimeZone('UTC'));
-        $this->ts = $date->getTimestamp() + 24 * 3600;
-
-        $this->privileges = array();
-    }
-
-    public function packContent()
-    {
-        $buffer = unpack("C*", pack("V", $this->salt));
-        $buffer = array_merge($buffer, unpack("C*", pack("V", $this->ts)));
-        $buffer = array_merge($buffer, unpack("C*", pack("v", sizeof($this->privileges))));
-        foreach ($this->privileges as $key => $value) {
-            $buffer = array_merge($buffer, unpack("C*", pack("v", $key)));
-            $buffer = array_merge($buffer, unpack("C*", pack("V", $value)));
-        }
-        return $buffer;
-    }
-
-    public function unpackContent($msg)
-    {
-        $pos = 0;
-        $salt = unpack("V", substr($msg, $pos, 4))[1];
-        $pos += 4;
-        $ts = unpack("V", substr($msg, $pos, 4))[1];
-        $pos += 4;
-        $size = unpack("v", substr($msg, $pos, 2))[1];
-        $pos += 2;
-
-        $privileges = array();
-        for ($i = 0; $i < $size; $i++) {
-            $key = unpack("v", substr($msg, $pos, 2));
-            $pos += 2;
-            $value = unpack("V", substr($msg, $pos, 4));
-            $pos += 4;
-            $privileges[$key[1]] = $value[1];
-        }
-        $this->salt = $salt;
-        $this->ts = $ts;
-        $this->privileges = $privileges;
-    }
-}
+use App\Class\AgoraDynamicKey\Message;
 
 class AccessToken
 {
@@ -92,9 +44,11 @@ class AccessToken
     {
         $accessToken = new AccessToken();
 
-        if (!$accessToken->is_nonempty_string("appID", $appID) ||
+        if (
+            !$accessToken->is_nonempty_string("appID", $appID) ||
             !$accessToken->is_nonempty_string("appCertificate", $appCertificate) ||
-            !$accessToken->is_nonempty_string("channelName", $channelName)) {
+            !$accessToken->is_nonempty_string("channelName", $channelName)
+        ) {
             return null;
         }
 
@@ -132,9 +86,11 @@ class AccessToken
             return false;
         }
 
-        if (!$this->is_nonempty_string("token", $token) ||
+        if (
+            !$this->is_nonempty_string("token", $token) ||
             !$this->is_nonempty_string("appCertificate", $appCertificate) ||
-            !$this->is_nonempty_string("channelName", $channelName)) {
+            !$this->is_nonempty_string("channelName", $channelName)
+        ) {
             return false;
         }
 
@@ -176,14 +132,14 @@ class AccessToken
         $crc_channel_name = crc32($this->channelName) & 0xffffffff;
         $crc_uid = crc32($this->uid) & 0xffffffff;
 
-        $content = array_merge(unpack("C*", packString($sig)), unpack("C*", pack("V", $crc_channel_name)), unpack("C*", pack("V", $crc_uid)), unpack("C*", pack("v", count($msg))), $msg);
+        $content = array_merge(unpack("C*", $this->packString($sig)), unpack("C*", pack("V", $crc_channel_name)), unpack("C*", pack("V", $crc_uid)), unpack("C*", pack("v", count($msg))), $msg);
         $version = "006";
         $ret = $version . $this->appID . base64_encode(implode(array_map("chr", $content)));
         return $ret;
     }
-}
 
-function packString($value)
-{
-    return pack("v", strlen($value)) . $value;
+    function packString($value)
+    {
+        return pack("v", strlen($value)) . $value;
+    }
 }

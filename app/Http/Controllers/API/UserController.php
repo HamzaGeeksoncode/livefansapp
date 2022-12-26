@@ -31,8 +31,6 @@ use App\RedeemRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
-include "./app/Class/AgoraDynamicKey/RtcTokenBuilder.php";
-
 class UserController extends Controller
 {
     public function generateAgoraToken(Request $request)

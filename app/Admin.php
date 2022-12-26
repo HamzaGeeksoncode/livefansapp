@@ -17,7 +17,7 @@ class Admin extends Authenticatable
 	{
 
 
-		$unique_key = $headers['unique-key'][0];
+		$unique_key = collect($headers)->get('unique-key', [null])[0];
 		if ($unique_key) {
 			$admin = Admin::where('unique_key', '=', $unique_key)->count();
 

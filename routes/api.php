@@ -11,6 +11,7 @@
 */
 
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'API\UserController@Registration')->name('login');
@@ -43,7 +44,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::prefix('User')->group(function () {
         Route::post('Logout', 'API\UserController@Logout');
-        Route::post('updateProfile', 'API\UserController@updateProfile');
+        Route::post('updateProfile', [UserController::class, 'updateProfile']);
         Route::post('verifyRequest', 'API\UserController@verifyRequest');
         Route::post('checkUsername', 'API\UserController@checkUsername');
         Route::post('getNotificationList', 'API\UserController@getNotificationList');

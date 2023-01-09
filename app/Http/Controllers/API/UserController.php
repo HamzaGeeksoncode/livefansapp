@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
-use Laravel\Passport\Token;
-use Hash;
 use DB;
-use File;
 use Log;
+use File;
+use Hash;
 use Storage;
+use App\Like;
+use App\Post;
 use App\User;
 use App\Admin;
-use App\Post;
-use App\Followers;
-use App\Like;
+use App\Common;
+use App\Report;
 use App\Bookmark;
 use App\Comments;
-use App\Report;
-use App\ProfileCategory;
-use App\VerificationRequest;
-use App\Notification;
 use App\BlockUser;
-use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
-use App\Common;
-use App\GlobalFunction;
+use App\Followers;
+use App\Notification;
 use App\RedeemRequest;
+use App\GlobalFunction;
+use App\ProfileCategory;
+use Laravel\Passport\Token;
+use App\VerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
 
 class UserController extends Controller
 {
@@ -114,7 +114,7 @@ class UserController extends Controller
                 $user_id = DB::getPdo()->lastInsertId();
                 $User =  User::where('user_id', $user_id)->first();
 
-                $User['token'] = 'Bearer ' . $User->createToken('shortzz')->accessToken;
+                $User['token'] = 'Bearer ' . $User->createToken('Livefans')->accessToken;
                 $User['followers_count'] = Followers::where('to_user_id', $user_id)->count();
                 $User['following_count'] = Followers::where('from_user_id', $user_id)->count();
                 $User['my_post_likes'] = Post::select('tbl_post.*')->leftjoin('tbl_likes as l', 'l.post_id', 'tbl_post.post_id')->where('tbl_post.user_id', $user_id)->count();
@@ -153,7 +153,7 @@ class UserController extends Controller
             $User['status'] = $User->status ? (int)$User->status : 0;
             $User['freez_or_not'] = $User->freez_or_not ? (int)$User->freez_or_not : 0;
 
-            $User['token'] = 'Bearer ' . $User->createToken('shortzz')->accessToken;
+            $User['token'] = 'Bearer ' . $User->createToken('Livefans')->accessToken;
             $User['followers_count'] = Followers::where('to_user_id', $user_id)->count();
             $User['following_count'] = Followers::where('from_user_id', $user_id)->count();
             $User['my_post_likes'] = Post::select('tbl_post.*')->leftjoin('tbl_likes as l', 'l.post_id', 'tbl_post.post_id')->where('tbl_post.user_id', $user_id)->count();

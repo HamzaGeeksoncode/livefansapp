@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Class\AgoraDynamicKey;
+namespace App\Classes\AgoraDynamicKey;
 
 class Message
 {

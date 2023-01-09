@@ -629,7 +629,7 @@ class PostController extends Controller
                 );
 
                 Notification::insert($notificationdata);
-                $notification_title = "Shortzz";
+                $notification_title = "Livefans";
                 $is_send = Common::send_push($device_token, $notification_title, $message, $platform);
             }
 
@@ -703,7 +703,7 @@ class PostController extends Controller
             );
 
             Notification::insert($notificationdata);
-            $notification_title = "Shortzz";
+            $notification_title = "Livefans";
             $is_send = Common::send_push($device_token, $notification_title, $message, $platform);
 
             return response()->json(['status' => 200, 'message' => "Follow Successful."]);
@@ -1075,7 +1075,7 @@ class PostController extends Controller
         //     $post_search_video = Post::where('post_hash_tag','LIKE',"%{$keyword}%")->orWhere('post_description','LIKE',"%{$keyword}%")->orderBy('post_id','DESC')->offset($start)->limit($limit)->get();
         // }else{
         //     $post_search_video = Post::orderBy('post_id','DESC')->offset($start)->limit($limit)->get();
-        // } 
+        // }
         if ($keyword) {
             $post_search_video = Post::where('post_hash_tag', 'LIKE', "%{$keyword}%")->orWhere('post_description', 'LIKE', "%{$keyword}%")->orderBy('post_id', 'DESC')->get();
         } else {
@@ -1399,7 +1399,7 @@ class PostController extends Controller
                 );
 
                 Notification::insert($notificationdata);
-                $notification_title = "Shortzz";
+                $notification_title = "Livefans";
                 $is_send = Common::send_push($device_token, $notification_title, $message, $platform);
             }
 

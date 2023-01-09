@@ -137,7 +137,7 @@ class WalletController extends Controller
             );
 
             Notification::insert($notificationdata);
-            $notification_title = "Shortzz";
+            $notification_title = "Livefans";
             $is_send = Common::send_push($device_token, $notification_title, $message, $platform);
 
             return response()->json(['status' => 200, 'message' => "Coin Send Successfully."]);

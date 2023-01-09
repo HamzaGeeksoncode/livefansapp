@@ -44,16 +44,16 @@ class VerificationRequestController extends Controller
                 'message'=>$message_text,
             );
 		Notification::insert($notificationdata);
-		$notification_title = "Shortzz";
+		$notification_title = "Livefans";
 		$is_send = Common::send_push($device_token,$notification_title,$message_text,$platform);
 
 		$data = array('status'=>1);
 		VerificationRequest::where('verification_request_id',$verification_request_id)->update($data);
 		$data1 = array('is_verify'=>1);
 		$result = User::where('user_id',$user_id)->update($data1);
-		
+
 		$total_verification_request = VerificationRequest::count();
-		
+
 		if ($result) {
 			$response['success'] = 1;
 			$response['total_verification_request'] = $total_verification_request;
@@ -84,7 +84,7 @@ class VerificationRequestController extends Controller
                 'message'=>$message_text,
             );
 		Notification::insert($notificationdata);
-		$notification_title = "Shortzz";
+		$notification_title = "Livefans";
 		$is_send = Common::send_push($device_token,$notification_title,$message_text,$platform);
 
 		$result =  VerificationRequest::where('verification_request_id',$verification_request_id)->delete();
@@ -93,7 +93,7 @@ class VerificationRequestController extends Controller
 		$result = User::where('user_id',$user_id)->update($data1);
 
 		$total_verification_request = VerificationRequest::count();
-		
+
 		if ($result) {
 			$response['success'] = 1;
 			$response['total_verification_request'] = $total_verification_request;
@@ -108,7 +108,7 @@ class VerificationRequestController extends Controller
     public function showVerificationRequestList(Request $request)
     {
 
-		$columns = array( 
+		$columns = array(
             0=>'photo_id_image',
             1=>'photo_with_id_image',
 			2=>'user_id',
@@ -124,8 +124,8 @@ class VerificationRequestController extends Controller
 		$dir = $request->input('order.0.dir');
 
 		if(empty($request->input('search.value')))
-		{      
-			
+		{
+
 			$VerificationRequestData = VerificationRequest::select('tbl_verification_request.*','u.full_name')->leftjoin('tbl_users as u', 'tbl_verification_request.user_id', 'u.user_id')
 					->offset($start)
 					->limit($limit)
@@ -136,7 +136,7 @@ class VerificationRequestController extends Controller
 
 		}
 		else {
-			$search = $request->input('search.value'); 
+			$search = $request->input('search.value');
 			$VerificationRequestData = VerificationRequest::select('tbl_verification_request.*','u.full_name')->leftjoin('tbl_users as u', 'tbl_verification_request.user_id', 'u.user_id')->where('tbl_verification_request.verification_request_id','LIKE',"%{$search}%")
 							->orWhere('tbl_verification_request.id_number', 'LIKE',"%{$search}%")
 							->orWhere('tbl_verification_request.name', 'LIKE',"%{$search}%")
@@ -160,7 +160,7 @@ class VerificationRequestController extends Controller
 		{
 			foreach ($VerificationRequestData as $rows)
 			{
-				if(Session::get('admin_id') == 2){ 
+				if(Session::get('admin_id') == 2){
 					$disabled = "disabled";
 				}else{
 					$disabled = "";
@@ -182,7 +182,7 @@ class VerificationRequestController extends Controller
                     $photo_id_image = '<img height="60px;" width="60px;" src="'.asset('assets/dist/img/default.png').'">';
                 }
 
-				
+
                 if(!empty($rows->photo_with_id_image))
                 {
                     $photo_with_id_image = '<img height="60" width="60" src="'.url(env('DEFAULT_IMAGE_URL').$rows->photo_with_id_image).'">';
@@ -191,7 +191,7 @@ class VerificationRequestController extends Controller
                 {
                     $photo_with_id_image = '<img height="60px;" width="60px;" src="'.asset('assets/dist/img/default.png').'">';
                 }
-				
+
 				$data[]= array(
 					$photo_id_image,
 					$photo_with_id_image,
@@ -202,17 +202,17 @@ class VerificationRequestController extends Controller
 					date('Y-m-d h:i:s',strtotime($rows->created_at)),
 					$status,
 					$html.'<a class="delete DeleteVerificationRequest" data-id="'.$rows->verification_request_id.'" title="Delete Verification Request" '.$disabled.'><i class="fas fa-trash text-danger font-20 pointer p-l-5 p-r-5"></i></a>'
-				); 
+				);
 			}
 		}
 		$json_data = array(
-			"draw"            => intval($request->input('draw')),  
-			"recordsTotal"    => intval($totalData),  
-			"recordsFiltered" => intval($totalFiltered), 
-			"data"            => $data   
+			"draw"            => intval($request->input('draw')),
+			"recordsTotal"    => intval($totalData),
+			"recordsFiltered" => intval($totalFiltered),
+			"data"            => $data
 			);
 
-		echo json_encode($json_data); 
+		echo json_encode($json_data);
         exit();
 	}
 }

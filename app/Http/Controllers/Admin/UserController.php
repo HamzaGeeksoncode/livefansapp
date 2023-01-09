@@ -59,7 +59,7 @@ class UserController extends Controller
 		$userData = User::where('user_id', $user_id)->first();
 		$platform = $userData['platform'];
 		$device_token = $userData['device_token'];
-		$notification_title = "Shortzz";
+		$notification_title = "Livefans";
 		$is_send = Common::send_push($device_token, $notification_title, $message, $platform);
 
 		if ($is_send) {
@@ -189,7 +189,7 @@ class UserController extends Controller
 					$rows->user_email,
 					date('Y-m-d', strtotime($rows->created_at)),
 					$status,
-					'<a href="' . $view . '" class="view"><i class="i-cl-3 fas fa-eye col-green  font-20 pointer p-l-5 p-r-5"></i></a> 
+					'<a href="' . $view . '" class="view"><i class="i-cl-3 fas fa-eye col-green  font-20 pointer p-l-5 p-r-5"></i></a>
 					<a href="' . $post . '" class="video"><i class="i-cl-3 fas fa-video col-blue font-20 pointer p-l-5 p-r-5"></i></a>
 					<a class="delete" id="userDelete" data-id="' . $rows->user_id . '" ' . $disabled . '><i class="fas fa-trash text-danger font-20 pointer p-l-5 p-r-5"></i></a>',
 				);

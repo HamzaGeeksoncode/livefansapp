@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Class\AgoraDynamicKey;
+namespace App\Classes\AgoraDynamicKey;
 
-use App\Class\AgoraDynamicKey\Message;
+// use App\Class\AgoraDynamicKey\Message;
 
 class AccessToken
 {

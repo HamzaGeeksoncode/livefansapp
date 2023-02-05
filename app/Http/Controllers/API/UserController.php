@@ -68,6 +68,7 @@ class UserController extends Controller
     public function Registration(Request $request)
     {
 
+        $code = rand(1000, 9999);
 
         $headers = $request->headers->all();
 
@@ -103,12 +104,13 @@ class UserController extends Controller
             $data['full_name'] = $request->get('full_name');
             $data['user_email'] = $request->get('user_email');
             $data['device_token'] = $request->get('device_token');
+            $data['invite_code'] = $code;
             $data['user_name'] = Common::generateUniqueUserId();
             $data['identity'] = $request->get('identity');
             $data['login_type'] = $request->get('login_type');
             $data['platform'] = $request->get('platform');
 
-            $result = User::insert($data);
+        $result = User::insert($data);
 
             if (!empty($result)) {
                 $user_id = DB::getPdo()->lastInsertId();
@@ -131,7 +133,7 @@ class UserController extends Controller
         } else {
             $identity = $request->get('identity');
             $data['device_token'] = $request->get('device_token');
-
+            $data['invite_code'] = $code;
             $data['login_type'] = $request->get('login_type');
             $data['platform'] = $request->get('platform');
 
@@ -173,6 +175,27 @@ class UserController extends Controller
 
             return response()->json(['status' => 200, 'message' => "User registered successfully.", 'data' => $User]);
         }
+    }
+
+    public function inviteLink(Request $request)
+    {
+        $headers = $request->headers->all();
+
+        $verify_request_base = Admin::verify_request_base($headers);
+
+        if (isset($verify_request_base['status']) && $verify_request_base['status'] == 401) {
+            return response()->json(['success_code' => 401, 'message' => "Unauthorized Access!"]);
+            exit();
+        }
+
+        $user_id = auth()->user()->user_id;
+        $inviteCode = User::select('invite_code')->where('user_id',$user_id)->first();
+        if($inviteCode) {
+            $inviteUrl = env('APP_URL').'/invite/'.$inviteCode->invite_code;
+            return response()->json(['status' => 200, 'message' => "Inivitation url generated successfully.", 'data' => $inviteUrl]);
+        }
+        return response()->json(['status' => 401, 'message' => "Inivitation url is not generated"]);
+
     }
 
     public function Logout()

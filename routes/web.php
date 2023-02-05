@@ -39,6 +39,7 @@ Route::group(array('middleware' => 'checkRole'), function () {
         Route::get('list', 'Admin\UserController@viewListUser')->name('user/list');
         Route::post('showUserList', 'Admin\UserController@showUserList')->name('showUserList');
         Route::get('view/{id}', 'Admin\UserController@viewUser')->name('user/view');
+        Route::post('invitatioCodeLimit', 'Admin\UserController@invitatioCodeLimit')->name('invitatioCodeLimit');
         Route::get('post/{id}', 'Admin\UserController@postUser')->name('user/post');
         Route::post('showUserPostList', 'Admin\UserController@showUserPostList')->name('showUserPostList');
         Route::post('deleteUser', 'Admin\UserController@deleteUser')->name('deleteUser');

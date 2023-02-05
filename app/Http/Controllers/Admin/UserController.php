@@ -46,6 +46,17 @@ class UserController extends Controller
 		return view('admin.user.viewusers')->with('data', $data)->with('followers_count', $followers_count)->with('following_count', $following_count)->with('total_videos', $total_videos)->with('profile_category_data', $profile_category_data);
 	}
 
+    public function invitatioCodeLimit(Request $request){
+        // dd($request->toArray());
+
+        $user = User::where("user_id", $request->user_id)->update(["limit_of_invite_code" => $request->limit_invitation_code]);
+        if($user){
+            return redirect()->back()->with('message', 'Invitation code limit is update successfully!');
+        }
+
+
+    }
+
 	public function postUser($user_id)
 	{
 		$total_videos = Post::where('user_id', base64_decode($user_id))->count();

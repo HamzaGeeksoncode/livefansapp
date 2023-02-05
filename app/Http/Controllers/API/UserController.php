@@ -191,8 +191,54 @@ class UserController extends Controller
         $user_id = auth()->user()->user_id;
         $inviteCode = User::select('invite_code')->where('user_id',$user_id)->first();
         if($inviteCode) {
-            $inviteUrl = env('APP_URL').'/invite/'.$inviteCode->invite_code;
+            $inviteUrl = env('APP_URL').'/invite-code='.$inviteCode->invite_code;
             return response()->json(['status' => 200, 'message' => "Inivitation url generated successfully.", 'data' => $inviteUrl]);
+        }
+        return response()->json(['status' => 401, 'message' => "Inivitation url is not generated"]);
+
+    }
+
+    public function inviteCodeVerifiy(Request $request)
+    {
+        $headers = $request->headers->all();
+
+        $verify_request_base = Admin::verify_request_base($headers);
+
+        if (isset($verify_request_base['status']) && $verify_request_base['status'] == 401) {
+            return response()->json(['success_code' => 401, 'message' => "Unauthorized Access!"]);
+            exit();
+        }
+
+        $inviteLogin = User::select('invite_login' , 'limit_of_invite_code')->where('user_id',$request->user_id)->first();
+
+        if($inviteLogin->invite_login == 1 || $inviteLogin->limit_of_invite_code == 0){
+
+            return response()->json(['success_code' => 401, 'message' => "Already use this invitation code"]);
+
+        }else{
+
+            $r = parse_url($request->url);
+            $inviteCode = substr($r['path'], strpos($r['path'],"=") + 1);
+            $checkInivitationCode = User::where('invite_code',$inviteCode)->first();
+
+            if(isset($checkInivitationCode)){
+
+                $updateInivationcodeCount = User::where('invite_code',$inviteCode)->update([
+                    'limit_of_invite_code' => DB::raw('limit_of_invite_code-1'),
+                    'invite_login' => '1'
+                ]);
+                if($updateInivationcodeCount){
+                    return response()->json(['success_code' => 200, 'message' => "Inivitation code verified successfully"]);
+                }else{
+                    return response()->json(['success_code' => 401, 'message' => "Inivitation code is not verified"]);
+                }
+
+            }else{
+
+                return response()->json(['success_code' => 401, 'message' => "Invalid Invitation Code"]);
+
+            }
+
         }
         return response()->json(['status' => 401, 'message' => "Inivitation url is not generated"]);
 

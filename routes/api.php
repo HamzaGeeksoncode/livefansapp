@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('deleteMyAccount', 'API\UserController@deleteMyAccount');
         Route::post('generateAgoraToken', 'API\UserController@generateAgoraToken');
         Route::get('invite', 'API\UserController@inviteLink');
+        Route::post('invitation-verifiy', 'API\UserController@inviteCodeVerifiy');
     });
 
     Route::prefix('Post')->group(function () {

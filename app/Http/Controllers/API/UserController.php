@@ -213,7 +213,7 @@ class UserController extends Controller
 
         if($inviteLogin->invite_login == 1 || $inviteLogin->limit_of_invite_code == 0){
 
-            return response()->json(['success_code' => 201, 'message' => "This invitation code is already used."]);
+            return response()->json(['status' => 201, 'message' => "This invitation code is already used."]);
 
         }else{
 
@@ -228,14 +228,14 @@ class UserController extends Controller
                     'invite_login' => '1'
                 ]);
                 if($updateInivationcodeCount){
-                    return response()->json(['success_code' => 200, 'message' => "Inivitation code verified successfully"]);
+                    return response()->json(['status' => 200, 'message' => "Inivitation code verified successfully"]);
                 }else{
-                    return response()->json(['success_code' => 401, 'message' => "Inivitation code is not verified"]);
+                    return response()->json(['status' => 401, 'message' => "Inivitation code is not verified"]);
                 }
 
             }else{
 
-                return response()->json(['success_code' => 401, 'message' => "Invalid Invitation Code"]);
+                return response()->json(['status' => 401, 'message' => "Invalid Invitation Code"]);
 
             }
 

@@ -213,7 +213,7 @@ class UserController extends Controller
 
         if($inviteLogin->invite_login == 1 || $inviteLogin->limit_of_invite_code == 0){
 
-            return response()->json(['success_code' => 401, 'message' => "Already use this invitation code"]);
+            return response()->json(['success_code' => 201, 'message' => "This invitation code is already used."]);
 
         }else{
 
